@@ -1,0 +1,4 @@
+<isset name="expires" value="${dw.util.StringUtils.formatCalendar(new dw.util.Calendar(pdict.expiresAt), 'dd MMM yyyy')}" scope="page"/>
+<h1>${Resource.msgf('email.expiring.heading', 'loyalty', null, pdict.points)}</h1>
+<p>${Resource.msgf('email.expiring.body', 'loyalty', null, expires)}</p>
+<p><a href="${pdict.dashboardUrl}">${Resource.msg('email.dashboard', 'loyalty', null)}</a></p>

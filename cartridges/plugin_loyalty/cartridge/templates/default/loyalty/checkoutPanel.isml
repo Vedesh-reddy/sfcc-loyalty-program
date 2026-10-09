@@ -1,0 +1,33 @@
+<isset name="loyaltyCheckout" value="${pdict.loyaltyCheckout}" scope="page"/>
+<div class="loyalty-checkout-panel border-top pt-3 mt-2" data-loyalty-panel>
+    <p class="font-weight-bold fw-bold mb-1">
+        ${Resource.msg('checkout.heading', 'loyalty', null)}
+        <isif condition="${loyaltyCheckout.signedIn}">
+            <span class="badge badge-dark bg-dark">${Resource.msg('tier.' + loyaltyCheckout.tier, 'loyalty', null)}</span>
+        </isif>
+    </p>
+    <isif condition="${!loyaltyCheckout.signedIn}">
+        <p class="small mb-0">${Resource.msgf('checkout.guest', 'loyalty', null, loyaltyCheckout.earn)}</p>
+    <iselse/>
+        <p class="small mb-2">${Resource.msgf('checkout.balance', 'loyalty', null, loyaltyCheckout.balance, loyaltyCheckout.balanceValue)}</p>
+        <isif condition="${!!loyaltyCheckout.appliedValue}">
+            <p class="mb-1">${Resource.msgf('checkout.applied', 'loyalty', null, loyaltyCheckout.applied, loyaltyCheckout.appliedValue)}</p>
+            <form class="loyalty-points-form" action="${URLUtils.https('Loyalty-Remove')}" method="post">
+                <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+                <button type="submit" class="btn btn-link p-0">${Resource.msg('checkout.remove', 'loyalty', null)}</button>
+            </form>
+        <iselseif condition="${loyaltyCheckout.canRedeem}">
+            <form class="loyalty-points-form input-group input-group-sm" action="${URLUtils.https('Loyalty-Apply')}" method="post">
+                <label class="sr-only visually-hidden" for="loyalty-points-input">${Resource.msg('checkout.points.label', 'loyalty', null)}</label>
+                <input id="loyalty-points-input" class="form-control" type="number" name="points" min="1" max="${loyaltyCheckout.maxUsable}" value="${loyaltyCheckout.maxUsable}" required/>
+                <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+                <button type="submit" class="btn btn-outline-primary">${Resource.msg('checkout.apply', 'loyalty', null)}</button>
+            </form>
+            <p class="small text-muted mt-1 mb-0">${Resource.msgf('checkout.max', 'loyalty', null, loyaltyCheckout.maxUsable, loyaltyCheckout.maxPercent)}</p>
+        <iselse/>
+            <p class="small text-muted mb-0">${Resource.msgf('checkout.needed', 'loyalty', null, loyaltyCheckout.needed, loyaltyCheckout.minimum)}</p>
+        </isif>
+        <p class="small text-success mt-2 mb-0">${Resource.msgf('checkout.earn', 'loyalty', null, loyaltyCheckout.earn)}</p>
+    </isif>
+    <p class="loyalty-points-message small text-danger mt-2 mb-0" role="alert"></p>
+</div>
