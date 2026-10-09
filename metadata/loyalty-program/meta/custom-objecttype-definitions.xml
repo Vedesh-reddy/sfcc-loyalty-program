@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-type type-id="LoyaltyAccount">
+        <display-name xml:lang="x-default">Loyalty account</display-name>
+        <description xml:lang="x-default">Points balance, tier and ledger sequence per customer.</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <key-definition attribute-id="key">
+            <display-name xml:lang="x-default">Customer number</display-name>
+            <type>string</type>
+            <min-length>1</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="balance">
+                <display-name xml:lang="x-default">Available points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pending">
+                <display-name xml:lang="x-default">Pending points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="tier">
+                <display-name xml:lang="x-default">Tier (SILVER, GOLD, PLATINUM)</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="spend12m">
+                <display-name xml:lang="x-default">Delivered spend in the last 12 months</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="sequence">
+                <display-name xml:lang="x-default">Last ledger sequence</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="lifetimeEarned">
+                <display-name xml:lang="x-default">Lifetime points earned</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="lifetimeRedeemed">
+                <display-name xml:lang="x-default">Lifetime points redeemed</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="tierEvaluatedAt">
+                <display-name xml:lang="x-default">Tier evaluated</display-name>
+                <type>datetime</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyAccount">
+                <display-name xml:lang="x-default">Loyalty account</display-name>
+                <attribute attribute-id="balance"/>
+                <attribute attribute-id="pending"/>
+                <attribute attribute-id="tier"/>
+                <attribute attribute-id="spend12m"/>
+                <attribute attribute-id="sequence"/>
+                <attribute attribute-id="lifetimeEarned"/>
+                <attribute attribute-id="lifetimeRedeemed"/>
+                <attribute attribute-id="tierEvaluatedAt"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+    <custom-type type-id="LoyaltyLedger">
+        <display-name xml:lang="x-default">Loyalty ledger entry</display-name>
+        <description xml:lang="x-default">Immutable points movement; the key customerNo:sequence serializes balance changes.</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <key-definition attribute-id="key">
+            <display-name xml:lang="x-default">Customer number:sequence</display-name>
+            <type>string</type>
+            <min-length>1</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="customerNo">
+                <display-name xml:lang="x-default">Customer number</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="type">
+                <display-name xml:lang="x-default">Type (EARN, BONUS, REDEEM, REFUND, EXPIRE)</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="points">
+                <display-name xml:lang="x-default">Points (+/-)</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="balanceAfter">
+                <display-name xml:lang="x-default">Balance after</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="orderNo">
+                <display-name xml:lang="x-default">Order number</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="source">
+                <display-name xml:lang="x-default">Source</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="detail">
+                <display-name xml:lang="x-default">Detail (JSON)</display-name>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyLedger">
+                <display-name xml:lang="x-default">Loyalty ledger entry</display-name>
+                <attribute attribute-id="customerNo"/>
+                <attribute attribute-id="type"/>
+                <attribute attribute-id="points"/>
+                <attribute attribute-id="balanceAfter"/>
+                <attribute attribute-id="orderNo"/>
+                <attribute attribute-id="source"/>
+                <attribute attribute-id="detail"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+    <custom-type type-id="LoyaltyLot">
+        <display-name xml:lang="x-default">Loyalty points lot</display-name>
+        <description xml:lang="x-default">Points credited together and expiring together; the key is the credit source, which makes credits idempotent.</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <key-definition attribute-id="key">
+            <display-name xml:lang="x-default">Source</display-name>
+            <type>string</type>
+            <min-length>1</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="customerNo">
+                <display-name xml:lang="x-default">Customer number</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="source">
+                <display-name xml:lang="x-default">Source type (ORDER, WELCOME, BIRTHDAY, PROFILE, REVIEW, REFUND)</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="points">
+                <display-name xml:lang="x-default">Points credited</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="remaining">
+                <display-name xml:lang="x-default">Points remaining</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="expiresAt">
+                <display-name xml:lang="x-default">Expires</display-name>
+                <type>datetime</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="reminderSentAt">
+                <display-name xml:lang="x-default">Expiry reminder sent</display-name>
+                <type>datetime</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyLot">
+                <display-name xml:lang="x-default">Loyalty points lot</display-name>
+                <attribute attribute-id="customerNo"/>
+                <attribute attribute-id="source"/>
+                <attribute attribute-id="points"/>
+                <attribute attribute-id="remaining"/>
+                <attribute attribute-id="expiresAt"/>
+                <attribute attribute-id="reminderSentAt"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+    <custom-type type-id="LoyaltyOrder">
+        <display-name xml:lang="x-default">Loyalty order</display-name>
+        <description xml:lang="x-default">Points redeemed on and earned by one order.</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <key-definition attribute-id="key">
+            <display-name xml:lang="x-default">Order number</display-name>
+            <type>string</type>
+            <min-length>1</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="customerNo">
+                <display-name xml:lang="x-default">Customer number</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="status">
+                <display-name xml:lang="x-default">Status (CREATED, PENDING, AVAILABLE, CANCELLED, FAILED)</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="reviewReason">
+                <display-name xml:lang="x-default">Why the earn is waiting</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="baseAmount">
+                <display-name xml:lang="x-default">Net product value</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="currency">
+                <display-name xml:lang="x-default">Currency</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="earnRate">
+                <display-name xml:lang="x-default">Earn rate (%)</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="tier">
+                <display-name xml:lang="x-default">Tier at order time</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pendingPoints">
+                <display-name xml:lang="x-default">Points pending</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="earnedPoints">
+                <display-name xml:lang="x-default">Points earned</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="redeemedPoints">
+                <display-name xml:lang="x-default">Points redeemed</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="redemptionDetail">
+                <display-name xml:lang="x-default">Lots consumed (JSON)</display-name>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="redemptionRefunded">
+                <display-name xml:lang="x-default">Redemption refunded</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="deliveredAt">
+                <display-name xml:lang="x-default">Delivery first observed</display-name>
+                <type>datetime</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyOrder">
+                <display-name xml:lang="x-default">Loyalty order</display-name>
+                <attribute attribute-id="customerNo"/>
+                <attribute attribute-id="status"/>
+                <attribute attribute-id="reviewReason"/>
+                <attribute attribute-id="baseAmount"/>
+                <attribute attribute-id="currency"/>
+                <attribute attribute-id="earnRate"/>
+                <attribute attribute-id="tier"/>
+                <attribute attribute-id="pendingPoints"/>
+                <attribute attribute-id="earnedPoints"/>
+                <attribute attribute-id="redeemedPoints"/>
+                <attribute attribute-id="redemptionDetail"/>
+                <attribute attribute-id="redemptionRefunded"/>
+                <attribute attribute-id="deliveredAt"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+</metadata>
