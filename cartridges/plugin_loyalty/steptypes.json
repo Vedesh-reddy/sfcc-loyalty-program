@@ -1,0 +1,54 @@
+{
+  "step-types": {
+    "script-module-step": [
+      {
+        "@type-id": "custom.Loyalty.ProcessOrders",
+        "@supports-parallel-execution": "false",
+        "@supports-site-context": "true",
+        "@supports-organization-context": "false",
+        "description": "Release earned points after delivery and the return window; refund points of failed or cancelled orders",
+        "module": "plugin_loyalty/cartridge/scripts/jobs/processLoyaltyOrders.js",
+        "function": "execute",
+        "transactional": "false",
+        "timeout-in-seconds": 900,
+        "parameters": {},
+        "status-codes": {
+          "status": [
+            {
+              "@code": "OK",
+              "description": "Complete"
+            },
+            {
+              "@code": "ERROR",
+              "description": "Partial failure; retry and inspect logs"
+            }
+          ]
+        }
+      },
+      {
+        "@type-id": "custom.Loyalty.Maintain",
+        "@supports-parallel-execution": "false",
+        "@supports-site-context": "true",
+        "@supports-organization-context": "false",
+        "description": "Expire points, send expiry reminders, re-evaluate tiers and award birthday, profile and review bonuses",
+        "module": "plugin_loyalty/cartridge/scripts/jobs/maintainLoyalty.js",
+        "function": "execute",
+        "transactional": "false",
+        "timeout-in-seconds": 900,
+        "parameters": {},
+        "status-codes": {
+          "status": [
+            {
+              "@code": "OK",
+              "description": "Complete"
+            },
+            {
+              "@code": "ERROR",
+              "description": "Partial failure; retry and inspect logs"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <type-extension type-id="Basket">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="loyaltyPointsRequested">
+                <display-name xml:lang="x-default">Loyalty points requested</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="loyaltyPointsApplied">
+                <display-name xml:lang="x-default">Loyalty points applied</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyProgram">
+                <display-name xml:lang="x-default">Loyalty Program</display-name>
+                <attribute attribute-id="loyaltyPointsRequested"/>
+                <attribute attribute-id="loyaltyPointsApplied"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+    <type-extension type-id="Order">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="loyaltyPointsRedeemed">
+                <display-name xml:lang="x-default">Loyalty points redeemed</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyProgram">
+                <display-name xml:lang="x-default">Loyalty Program</display-name>
+                <attribute attribute-id="loyaltyPointsRedeemed"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="LoyaltyEnabled">
+                <display-name xml:lang="x-default">Loyalty program enabled</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyPointsPerCurrencyUnit">
+                <display-name xml:lang="x-default">Points worth one currency unit</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>10</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyMinRedeemPoints">
+                <display-name xml:lang="x-default">Minimum balance to redeem</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>100</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyMaxRedeemPercent">
+                <display-name xml:lang="x-default">Maximum share of the order points can pay (%)</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>50</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyEarnPercentSilver">
+                <display-name xml:lang="x-default">Silver: value earned as points (% of net product price)</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>5</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyEarnPercentGold">
+                <display-name xml:lang="x-default">Gold: value earned as points (%)</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>7</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyEarnPercentPlatinum">
+                <display-name xml:lang="x-default">Platinum: value earned as points (%)</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>10</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyGoldThreshold">
+                <display-name xml:lang="x-default">Gold: delivered spend in 12 months</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>1000</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyPlatinumThreshold">
+                <display-name xml:lang="x-default">Platinum: delivered spend in 12 months</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>2500</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyReturnWindowDays">
+                <display-name xml:lang="x-default">Days after delivery before points become available</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>7</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyExpiryMonths">
+                <display-name xml:lang="x-default">Months until points expire</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>12</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyExpiryReminderDays">
+                <display-name xml:lang="x-default">Days before expiry to send a reminder</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>30</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyWelcomeBonus">
+                <display-name xml:lang="x-default">Welcome bonus points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>100</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyBirthdayBonus">
+                <display-name xml:lang="x-default">Birthday bonus points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>200</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyProfileBonus">
+                <display-name xml:lang="x-default">Completed profile bonus points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>50</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="LoyaltyReviewBonus">
+                <display-name xml:lang="x-default">Approved review bonus points</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>50</default-value>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="LoyaltyProgram">
+                <display-name xml:lang="x-default">Loyalty Program</display-name>
+                <attribute attribute-id="LoyaltyEnabled"/>
+                <attribute attribute-id="LoyaltyPointsPerCurrencyUnit"/>
+                <attribute attribute-id="LoyaltyMinRedeemPoints"/>
+                <attribute attribute-id="LoyaltyMaxRedeemPercent"/>
+                <attribute attribute-id="LoyaltyEarnPercentSilver"/>
+                <attribute attribute-id="LoyaltyEarnPercentGold"/>
+                <attribute attribute-id="LoyaltyEarnPercentPlatinum"/>
+                <attribute attribute-id="LoyaltyGoldThreshold"/>
+                <attribute attribute-id="LoyaltyPlatinumThreshold"/>
+                <attribute attribute-id="LoyaltyReturnWindowDays"/>
+                <attribute attribute-id="LoyaltyExpiryMonths"/>
+                <attribute attribute-id="LoyaltyExpiryReminderDays"/>
+                <attribute attribute-id="LoyaltyWelcomeBonus"/>
+                <attribute attribute-id="LoyaltyBirthdayBonus"/>
+                <attribute attribute-id="LoyaltyProfileBonus"/>
+                <attribute attribute-id="LoyaltyReviewBonus"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>
