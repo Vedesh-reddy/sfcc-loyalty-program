@@ -1,0 +1,115 @@
+<isdecorate template="common/layout/page">
+    <div class="container py-4">
+        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+        <p class="text-uppercase small font-weight-bold fw-bold mb-1">${Resource.msg('program.eyebrow', 'loyalty', null)}</p>
+        <h1 class="h2">${Resource.msg('dashboard.title', 'loyalty', null)}</h1>
+
+        <isif condition="${!pdict.account}">
+            <p class="lead">${Resource.msgf('program.intro', 'loyalty', null, pdict.program.earnPercent, pdict.program.perUnit)}</p>
+            <a class="btn btn-primary mb-4" href="${pdict.loginUrl}">${Resource.msg('program.signin', 'loyalty', null)}</a>
+        <iselse/>
+            <section class="row" aria-label="${Resource.msg('dashboard.summary', 'loyalty', null)}">
+                <div class="col-6 col-md-3 mb-3"><div class="card card-body h-100">
+                    <p class="h2 mb-0">${pdict.account.balance}</p>
+                    <p class="small mb-0">${Resource.msgf('dashboard.balance', 'loyalty', null, pdict.account.value)}</p>
+                </div></div>
+                <div class="col-6 col-md-3 mb-3"><div class="card card-body h-100">
+                    <p class="h2 mb-0">${pdict.account.pending}</p>
+                    <p class="small mb-0">${Resource.msg('dashboard.pending', 'loyalty', null)}</p>
+                </div></div>
+                <div class="col-6 col-md-3 mb-3"><div class="card card-body h-100">
+                    <p class="h2 mb-0">${Resource.msg('tier.' + pdict.account.tier, 'loyalty', null)}</p>
+                    <p class="small mb-0">${Resource.msgf('dashboard.tier', 'loyalty', null, pdict.account.tierPercent)}</p>
+                </div></div>
+                <div class="col-6 col-md-3 mb-3"><div class="card card-body h-100">
+                    <p class="h2 mb-0">${pdict.account.expiring}</p>
+                    <p class="small mb-0">
+                        <isif condition="${!!pdict.account.expiringOn}">
+                            ${Resource.msgf('dashboard.expiring.on', 'loyalty', null, pdict.account.expiringOn)}
+                        <iselse/>
+                            ${Resource.msg('dashboard.expiring.none', 'loyalty', null)}
+                        </isif>
+                    </p>
+                </div></div>
+            </section>
+
+            <section class="card card-body mb-4" aria-labelledby="loyalty-tier">
+                <h2 id="loyalty-tier" class="h5">${Resource.msgf('dashboard.spend', 'loyalty', null, pdict.account.spend)}</h2>
+                <isif condition="${!!pdict.account.next}">
+                    <div class="progress mb-2" role="progressbar" aria-valuenow="${pdict.account.progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${Resource.msg('dashboard.progress', 'loyalty', null)}">
+                        <div class="progress-bar bg-success" style="width: ${pdict.account.progress}%"></div>
+                    </div>
+                    <p class="small mb-0">${Resource.msgf('dashboard.next', 'loyalty', null, pdict.account.nextGap, Resource.msg('tier.' + pdict.account.next, 'loyalty', null))}</p>
+                <iselse/>
+                    <p class="small mb-0">${Resource.msg('dashboard.top', 'loyalty', null)}</p>
+                </isif>
+                <p class="small text-muted mt-2 mb-0">
+                    <isif condition="${pdict.account.canRedeem}">
+                        ${Resource.msg('dashboard.redeem.ready', 'loyalty', null)}
+                    <iselse/>
+                        ${Resource.msgf('dashboard.redeem.min', 'loyalty', null, pdict.program.minRedeem)}
+                    </isif>
+                </p>
+            </section>
+
+            <section class="mb-4" aria-labelledby="loyalty-activity">
+                <h2 id="loyalty-activity" class="h4">${Resource.msg('dashboard.activity', 'loyalty', null)}</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">${Resource.msg('dashboard.date', 'loyalty', null)}</th>
+                                <th scope="col">${Resource.msg('dashboard.type', 'loyalty', null)}</th>
+                                <th scope="col">${Resource.msg('dashboard.reference', 'loyalty', null)}</th>
+                                <th scope="col" class="text-right text-end">${Resource.msg('dashboard.points', 'loyalty', null)}</th>
+                                <th scope="col" class="text-right text-end">${Resource.msg('dashboard.after', 'loyalty', null)}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <isloop items="${pdict.activity}" var="entry">
+                                <tr>
+                                    <td>${entry.date}</td>
+                                    <td>${Resource.msg('type.' + entry.type, 'loyalty', entry.type)}</td>
+                                    <td class="text-monospace font-monospace small">${entry.source}</td>
+                                    <td class="text-right text-end font-weight-bold fw-bold ${entry.positive ? 'text-success' : 'text-danger'}">${entry.points}</td>
+                                    <td class="text-right text-end">${entry.balance}</td>
+                                </tr>
+                            </isloop>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </isif>
+
+        <section class="mb-4" aria-labelledby="loyalty-how">
+            <h2 id="loyalty-how" class="h4">${Resource.msg('program.how', 'loyalty', null)}</h2>
+            <ul>
+                <li>${Resource.msgf('program.rule.earn', 'loyalty', null, pdict.program.earnPercent)}</li>
+                <li>${Resource.msgf('program.rule.value', 'loyalty', null, pdict.program.perUnit)}</li>
+                <li>${Resource.msgf('program.rule.redeem', 'loyalty', null, pdict.program.minRedeem, pdict.program.maxPercent)}</li>
+                <li>${Resource.msgf('program.rule.expiry', 'loyalty', null, pdict.program.months)}</li>
+                <li>${Resource.msg('program.rule.bonus', 'loyalty', null)}</li>
+            </ul>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">${Resource.msg('program.tier', 'loyalty', null)}</th>
+                            <th scope="col">${Resource.msg('program.threshold', 'loyalty', null)}</th>
+                            <th scope="col">${Resource.msg('program.rate', 'loyalty', null)}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <isloop items="${pdict.program.tiers}" var="tier">
+                            <tr>
+                                <td>${Resource.msg('tier.' + tier.name, 'loyalty', null)}</td>
+                                <td>${tier.threshold}</td>
+                                <td>${tier.percent}%</td>
+                            </tr>
+                        </isloop>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</isdecorate>
