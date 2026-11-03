@@ -47,7 +47,7 @@ npm run package:metadata
 2. **Deploy:** upload `cartridges/plugin_loyalty`, including the generated `cartridge/static`, to your code version.
 3. **Activate:** put `plugin_loyalty` first on the storefront cartridge path.
 4. **Import:** rename `metadata/loyalty-program/sites/RefArch` and the job `site-id` to your site, rebuild the ZIP and import `dist/loyalty-program-metadata.zip`.
-5. **Configure:** add the **My Points** footer link and schedule the two jobs.
+5. **Configure:** add the **My Points** footer link and schedule `Loyalty-Job`.
 
 ```text
 plugin_loyalty:app_storefront_base
@@ -60,12 +60,12 @@ The [installation guide](docs/INSTALLATION.md) covers each step.
 | # | Feature | Shopper entry point | Data | Job |
 | --- | --- | --- | --- | --- |
 | 1 | [My Points page](#1-my-points-page) | Footer link, `Loyalty-Show` | `LoyaltyAccount`, `LoyaltyLedger` | — |
-| 2 | [Earning points](#2-earning-points) | Checkout, order confirmation | `LoyaltyOrder` | `Loyalty-ProcessOrders` |
+| 2 | [Earning points](#2-earning-points) | Checkout, order confirmation | `LoyaltyOrder` | `ProcessOrders` step of `Loyalty-Job` |
 | 3 | [Redeeming points](#3-redeeming-points) | Checkout panel | Basket and order attributes, `LoyaltyLot` | — |
-| 4 | [Cancellations and refunds](#4-cancellations-and-refunds) | — | `LoyaltyOrder`, `LoyaltyLedger` | `Loyalty-ProcessOrders` |
+| 4 | [Cancellations and refunds](#4-cancellations-and-refunds) | — | `LoyaltyOrder`, `LoyaltyLedger` | `ProcessOrders` step of `Loyalty-Job` |
 | 5 | [Tiers](#5-tiers) | My Points, checkout | `LoyaltyAccount` | Both jobs |
-| 6 | [Bonus points](#6-bonus-points) | — | `LoyaltyLot` | `Loyalty-Maintain` |
-| 7 | [Expiry and reminders](#7-expiry-and-reminders) | Email | `LoyaltyLot` | `Loyalty-Maintain` |
+| 6 | [Bonus points](#6-bonus-points) | — | `LoyaltyLot` | `Maintain` step of `Loyalty-Job` |
+| 7 | [Expiry and reminders](#7-expiry-and-reminders) | Email | `LoyaltyLot` | `Maintain` step of `Loyalty-Job` |
 
 ---
 
@@ -187,6 +187,12 @@ This path is covered by unit tests, not screenshots.
 - **Ledger:** every balance change writes an immutable `LoyaltyLedger` entry keyed `customerNo:sequence`. Two concurrent writers for one customer collide on that key and one rolls back, so balances are never lost or double-spent.
 - **Invariant:** the account balance equals the sum of open lots. The unit tests assert it after every scenario.
 - **Idempotent credits:** each credit's lot key is its source (`ORDER:<no>`, a bonus key), so job retries never double-credit.
+
+## Background job
+
+All background work runs in one Business Manager job, `Loyalty-Job`, with its steps in order. Steps that run less often than the job keep their own timing with `RunEveryMinutes` or `RunAtHourUTC`, and finish `NOT_DUE` when skipped. A failing step doesn't stop the next one, and the last step, `ReportFailures`, then marks the job `ERROR`.
+
+Upgrading from a version with several jobs? Import `metadata/retired-jobs/jobs.xml` once to delete the old ones.
 
 ## Documentation
 

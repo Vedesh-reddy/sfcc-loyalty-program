@@ -43,8 +43,8 @@ With 300 points on a $40 order:
 
 | Job | What to expect |
 | --- | --- |
-| `Loyalty-ProcessOrders` | Records delivery on the first run that sees the order shipped, and releases points on a later run after the return window. Refunds cancelled or failed orders. |
-| `Loyalty-Maintain` | Expires points, sends reminders, re-evaluates every tier (downgrades included), awards birthday, profile and review bonuses. |
+| `ProcessOrders` step of `Loyalty-Job` | Records delivery on the first run that sees the order shipped, and releases points on a later run after the return window. Refunds cancelled or failed orders. |
+| `Maintain` step of `Loyalty-Job` | Expires points, sends reminders, re-evaluates every tier (downgrades included), awards birthday, profile and review bonuses. |
 
 Status `ERROR` means at least one record failed; the reason is in the `loyalty-program` log, and the record is retried on the next run.
 

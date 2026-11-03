@@ -7,8 +7,8 @@
         "@supports-site-context": "true",
         "@supports-organization-context": "false",
         "description": "Release earned points after delivery and the return window; refund points of failed or cancelled orders",
-        "module": "plugin_loyalty/cartridge/scripts/jobs/processLoyaltyOrders.js",
-        "function": "execute",
+        "module": "plugin_loyalty/cartridge/scripts/jobs/jobSteps.js",
+        "function": "processOrders",
         "transactional": "false",
         "timeout-in-seconds": 900,
         "parameters": {},
@@ -31,11 +31,22 @@
         "@supports-site-context": "true",
         "@supports-organization-context": "false",
         "description": "Expire points, send expiry reminders, re-evaluate tiers and award birthday, profile and review bonuses",
-        "module": "plugin_loyalty/cartridge/scripts/jobs/maintainLoyalty.js",
-        "function": "execute",
+        "module": "plugin_loyalty/cartridge/scripts/jobs/jobSteps.js",
+        "function": "maintain",
         "transactional": "false",
         "timeout-in-seconds": 900,
-        "parameters": {},
+        "parameters": {
+          "parameter": [
+            {
+              "@name": "RunAtHourUTC",
+              "@type": "long",
+              "@required": "false",
+              "description": "Run this step only during this hour, 0 to 23 UTC. Empty runs it every time the job runs.",
+              "min-value": "0",
+              "max-value": "23"
+            }
+          ]
+        },
         "status-codes": {
           "status": [
             {
@@ -45,6 +56,30 @@
             {
               "@code": "ERROR",
               "description": "Partial failure; retry and inspect logs"
+            }
+          ]
+        }
+      },
+      {
+        "@type-id": "custom.Loyalty.ReportFailures",
+        "@supports-parallel-execution": "false",
+        "@supports-site-context": "true",
+        "@supports-organization-context": "false",
+        "description": "Fails the job when an earlier step failed, so Business Manager shows it",
+        "module": "plugin_loyalty/cartridge/scripts/jobs/jobSteps.js",
+        "function": "reportFailures",
+        "transactional": "false",
+        "timeout-in-seconds": 60,
+        "parameters": {},
+        "status-codes": {
+          "status": [
+            {
+              "@code": "OK",
+              "description": "No failed steps"
+            },
+            {
+              "@code": "ERROR",
+              "description": "An earlier step failed; the message names it"
             }
           ]
         }
