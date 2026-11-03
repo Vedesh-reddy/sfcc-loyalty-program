@@ -47,7 +47,7 @@ With other overlays, keep `plugin_loyalty` leftmost. These chain to the next car
 | --- | --- |
 | `meta/custom-objecttype-definitions.xml` | `LoyaltyAccount`, `LoyaltyLedger`, `LoyaltyLot`, `LoyaltyOrder` |
 | `meta/system-objecttype-extensions.xml` | Basket `loyaltyPointsRequested`, `loyaltyPointsApplied`; Order `loyaltyPointsRedeemed`; the **Loyalty Program** site preferences |
-| `jobs.xml` | `Loyalty-ProcessOrders`, `Loyalty-Maintain` |
+| `jobs.xml` | `ProcessOrders` step of `Loyalty-Job`, `Maintain` step of `Loyalty-Job` |
 | `sites/RefArch/preferences.xml` | `LoyaltyEnabled = true` |
 
 1. Rename `sites/RefArch` to your site ID and set `site-id` in `jobs.xml`.
@@ -66,11 +66,11 @@ Add to the `footer-account` content asset:
 
 | Job | Schedule |
 | --- | --- |
-| `Loyalty-ProcessOrders` | Every 30 minutes |
-| `Loyalty-Maintain` | Daily, early morning (birthday bonuses use the UTC date) |
+| `ProcessOrders` step of `Loyalty-Job` | Every 30 minutes |
+| `Maintain` step of `Loyalty-Job` | Daily, early morning (birthday bonuses use the UTC date) |
 
 ## 7. Check
 
 1. Sign in and open My Points: 100 welcome points.
 2. Check out: the panel offers up to 100 points; apply them, and the Order Discount shows −10.
-3. Mark the order Paid and its shipment Shipped. Run `Loyalty-ProcessOrders` twice, after `LoyaltyReturnWindowDays`: the earned points appear.
+3. Mark the order Paid and its shipment Shipped. Run `ProcessOrders` step of `Loyalty-Job` twice, after `LoyaltyReturnWindowDays`: the earned points appear.

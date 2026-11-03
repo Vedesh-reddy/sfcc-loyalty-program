@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
-    <job job-id="Loyalty-ProcessOrders" priority="0"><description>Release earned points after delivery and the return window, refund points of failed or cancelled orders; schedule every 30 minutes after configuration.</description><parameters/><flow><context site-id="RefArch"/><step step-id="ProcessOrders" type="custom.Loyalty.ProcessOrders" enforce-restart="false"><parameters/></step></flow><rules/><triggers/></job>
-    <job job-id="Loyalty-Maintain" priority="0"><description>Expire points, send expiry reminders, re-evaluate tiers and award birthday, profile and review bonuses; schedule daily after configuration.</description><parameters/><flow><context site-id="RefArch"/><step step-id="Maintain" type="custom.Loyalty.Maintain" enforce-restart="false"><parameters/></step></flow><rules/><triggers/></job>
+    <job job-id="Loyalty-Job">
+        <description>All loyalty tasks. Runs every 30 minutes; Maintain runs only in the hour set by RunAtHourUTC.</description>
+        <parameters/>
+        <flow>
+            <context site-id="RefArch"/>
+            <step step-id="ProcessOrders" type="custom.Loyalty.ProcessOrders" enforce-restart="false">
+                <description>Release earned points after delivery and the return window; refund points of failed or cancelled orders</description>
+                <parameters/>
+                <rules>
+                    <on-exit status="ERROR">
+                        <continue/>
+                    </on-exit>
+                </rules>
+            </step>
+            <step step-id="Maintain" type="custom.Loyalty.Maintain" enforce-restart="false">
+                <description>Expire points, send expiry reminders, re-evaluate tiers and award birthday, profile and review bonuses</description>
+                <parameters>
+                    <parameter name="RunAtHourUTC">2</parameter>
+                </parameters>
+                <rules>
+                    <on-exit status="ERROR">
+                        <continue/>
+                    </on-exit>
+                </rules>
+            </step>
+            <step step-id="ReportFailures" type="custom.Loyalty.ReportFailures" enforce-restart="false">
+                <description>Fails the job when an earlier step failed, so Business Manager shows it</description>
+                <parameters/>
+                <rules>
+                    <on-exit status="ERROR">
+                        <stop-job/>
+                    </on-exit>
+                </rules>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="false">
+                <recurrence>
+                    <date-from>2026-01-01Z</date-from>
+                    <start-time>00:00:00.000Z</start-time>
+                    <interval>30m</interval>
+                    <day-of-week>
+                        <weekday>Monday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Wednesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Saturday</weekday>
+                        <weekday>Sunday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
 </jobs>

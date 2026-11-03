@@ -51,8 +51,8 @@ A headless browser drove every storefront step.
 | Checkout with 100 points | Panel offered 100; order 00000307 placed without points, 20 pending |
 | Apply 100 points | −$10.00 Order Discount; earn preview dropped to 15; order 00000308 placed |
 | New basket at 0 points | "Collect 100 more points" |
-| 00000307 Paid, shipment Shipped; 00000308 cancelled; `Loyalty-ProcessOrders` twice | +20 earned, +100 refunded, pending 0, tier Gold |
-| Birthday today, review approved; `Loyalty-Maintain` | +200 birthday, +50 profile, +50 review; balance 420 |
+| 00000307 Paid, shipment Shipped; 00000308 cancelled; `ProcessOrders` step of `Loyalty-Job` twice | +20 earned, +100 refunded, pending 0, tier Gold |
+| Birthday today, review approved; `Maintain` step of `Loyalty-Job` | +200 birthday, +50 profile, +50 review; balance 420 |
 | Checkout at 420 points on $40.99 | Cap 204 points; Gold earn preview 28 |
 | Order 00000311 | Confirmation: "You will earn 28 points" |
 

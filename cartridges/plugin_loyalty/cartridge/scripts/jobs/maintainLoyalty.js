@@ -139,9 +139,15 @@ function rewardReviews(now, fail) {
 
 /**
  * Daily upkeep: expiry, reminders, tiers and bonuses.
+ * @param {Object} params - job parameters
  * @returns {dw.system.Status} OK, or ERROR when any record failed and needs a retry
  */
-function execute() {
+function execute(params) {
+    // Shares a job with steps that run all day; this one only runs in its own hour.
+    var hour = params && params.RunAtHourUTC;
+    if (hour !== null && hour !== undefined && new Date().getUTCHours() !== Number(hour)) {
+        return new Status(Status.OK, 'NOT_DUE', 'Runs in hour ' + hour + ' UTC');
+    }
     var logger = Logger.getLogger('loyalty-program', 'loyalty-maintenance');
     var now = new Date();
     var failures = 0;
